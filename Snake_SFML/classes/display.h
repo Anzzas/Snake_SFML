@@ -12,6 +12,7 @@ namespace DisplaySettings
     inline const std::string windowName{ "Snake Game" };
     constexpr int window_Dimensions{ 500 };
     constexpr int frameLimit{ 60 };
+    constexpr int charSize{ 16 };
     constexpr float cell_Size{ 20.0f };
     constexpr float borderOffset{ 20.0f };
     constexpr sf::Color snake_HeadColor{ sf::Color::Green };
@@ -27,13 +28,17 @@ class Display
 {
 public:
 
-    Display() = default;
+    Display()
+    {
+        if (!m_font.openFromFile("police/07558_CenturyGothic.ttf"))
+            throw std::runtime_error{"Could not load Police text"};
+    }
 
     /**
      * Interface principale pour le rendu du jeu
      * Appelle toutes les autres fonctions de rendu
      */
-    void renderGame(const std::deque<Position>& snakeBody, const Position& food /*const int& score*/ );
+    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score);
 
     /**
      * Traite les événements de la fenêtre

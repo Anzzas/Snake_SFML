@@ -9,5 +9,5 @@ int main()
 	Display display{};
 
 
-	display.renderGame(snake.getBody(), food.getPos());
+	display.renderGame(snake.getBody(), food.getPos(), 10);
 }

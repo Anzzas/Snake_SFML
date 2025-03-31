@@ -55,4 +55,10 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 set_property(TARGET Snake_SFML PROPERTY CXX_STANDARD 17)
 set_property(TARGET Snake_SFML PROPERTY CXX_STANDARD_REQUIRED ON)
 
-# TODO: Add tests and install targets if needed.
+
+set(RESOURCES_POLICE_DIR "${CMAKE_SOURCE_DIR}/Snake_SFML/police")
+
+add_custom_command(TARGET Snake_SFML POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${RESOURCES_POLICE_DIR} $<TARGET_FILE_DIR:Snake_SFML>/police
+)
