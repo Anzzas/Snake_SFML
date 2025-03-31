@@ -12,12 +12,18 @@ set(SFML_CLASS
 set(GAME_CLASSES 
 
     classes/common.h
-
     classes/snake.cpp
     classes/snake.h
     classes/random.h
     classes/game.h
-    classes/game.cpp)
+    classes/game.cpp 
+    classes/playerController.h 
+    classes/playerController.cpp
+    classes/display.cpp
+    classes/display.h
+    classes/food.h
+    classes/food.cpp 
+    classes/board.h)
 
 
 # Add source to this project's executable.

@@ -1,21 +1,13 @@
-﻿#include <SFML/Graphics.hpp>
+﻿#include "../classes/display.h"
+#include "../classes/snake.h"
+#include "../classes/food.h"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({ 500, 500 }), "Snake Game");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Blue);
+	Snake snake{};
+	Food food{ Position{20, 20} };
+	Display display{};
 
-    while (window.isOpen())
-    {
-        while (const std::optional event = window.pollEvent())
-        {
-            if (event->is<sf::Event::Closed>())
-                window.close();
-        }
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+	display.renderGame(snake.getBody(), food.getPos());
 }
