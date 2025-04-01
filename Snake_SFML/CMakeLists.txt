@@ -29,6 +29,11 @@ set(GAME_CLASSES
 # Add source to this project's executable.
 add_executable (Snake_SFML ${SFML_CLASS} ${GAME_CLASSES})
 
+
+file(COPY "${CMAKE_SOURCE_DIR}/Snake_SFML/police" 
+     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_link_libraries(Snake_SFML
         ${CMAKE_SOURCE_DIR}/lib/sfml-graphics-d.lib
@@ -54,11 +59,3 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 set_property(TARGET Snake_SFML PROPERTY CXX_STANDARD 17)
 set_property(TARGET Snake_SFML PROPERTY CXX_STANDARD_REQUIRED ON)
-
-
-set(RESOURCES_POLICE_DIR "${CMAKE_SOURCE_DIR}/Snake_SFML/police")
-
-add_custom_command(TARGET Snake_SFML POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${RESOURCES_POLICE_DIR} $<TARGET_FILE_DIR:Snake_SFML>/police
-)

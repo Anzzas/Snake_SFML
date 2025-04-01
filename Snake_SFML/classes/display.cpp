@@ -39,7 +39,7 @@ void Display::renderGame(const std::deque<Position>& snakeBody, const Position& 
 void Display::createWindow()
 {
 	m_window.create(sf::VideoMode({ window_Dimensions, window_Dimensions }), windowName);
-	m_window.setFramerateLimit(frameLimit);
+    m_window.setVerticalSyncEnabled(true);
 }
 
 

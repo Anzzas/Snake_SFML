@@ -40,11 +40,6 @@ public:
      */
     void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score);
 
-    /**
-     * Traite les événements de la fenêtre
-     * Retourne un std::optional<sf::Event> s'il y a un événement
-     */
-    std::optional<sf::Event> pollEvent();
 
     /**
      * Vérifie si la fenêtre est ouverte

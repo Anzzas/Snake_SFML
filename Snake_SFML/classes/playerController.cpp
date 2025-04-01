@@ -1,1 +1,104 @@
 #include "playercontroller.h"
+#include <SFML/Window/Event.hpp>
+
+
+/** Getting the input direction
+* Returns the current direction if an opposite direction key is pressed
+* Manage ESCAPE key case if the player wants to quit the game
+*/
+Direction PlayerController::getDirection(Direction currentDirection, const std::optional<sf::Event>& event)
+{
+	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+	{
+		switch (keyPressed->scancode)
+		{
+		case sf::Keyboard::Scan::Up:
+			if (currentDirection != Direction::down)
+				return Direction::up;
+			break;
+
+		case sf::Keyboard::Scan::Right:
+			if (currentDirection != Direction::left)
+				return Direction::right;
+			break;
+
+		case sf::Keyboard::Scan::Down:
+			if (currentDirection != Direction::up)
+				return Direction::down;
+			break;
+
+		case sf::Keyboard::Scan::Left:
+			if (currentDirection != Direction::right)
+				return Direction::left;
+			break;
+
+		case sf::Keyboard::Scan::Escape:
+			m_isQuitting = true;
+			[[fallthrough]];
+
+		default: return currentDirection;
+		}
+	}
+
+	return currentDirection;
+}
+
+
+//* Returns whether the player has pressed ESCAPE key to QUIT or not
+const bool& PlayerController::isQuitReq() const
+{
+	return m_isQuitting;
+}
+
+
+std::optional<Direction> PlayerController::getMenuDirection(const InputType& input) const
+{
+
+	switch (input)
+	{
+	case InputType::up_arrow: return Direction::up;
+	case InputType::down_arrow: return Direction::down;
+	default: return {};
+	}
+	return {};
+}
+
+
+/*bool PlayerController::hasPressedEnter() const
+{
+	if (econio_kbhit())
+	{
+		int key{ econio_getch() };
+
+
+		return key == KEY_ENTER;
+	}
+}*/
+
+
+InputType PlayerController::getInput(const std::optional<sf::Event>& event) const
+{
+
+	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+	{
+		switch (keyPressed->scancode)
+		{
+		case sf::Keyboard::Scan::Up: return InputType::up_arrow;
+
+		case sf::Keyboard::Scan::Right: return InputType::right_arrow;
+
+		case sf::Keyboard::Scan::Down: return InputType::down_arrow;
+
+		case sf::Keyboard::Scan::Left: return InputType::left_arrow;
+
+		case sf::Keyboard::Scan::Escape: return InputType::escape;
+
+		case sf::Keyboard::Scan::Enter: return InputType::enter;
+
+		default: return InputType::none_key;
+		}
+	}
+
+
+	return InputType::none_key;
+}

@@ -12,7 +12,7 @@ public:
 
 
 	/** Converting inputs (arrow keys) into a Direction*/
-	Direction getDirection(Direction snakeDirection);
+	Direction getDirection(Direction currentDirection, const std::optional<sf::Event>& event);
 
 
 	std::optional<Direction> getMenuDirection(const InputType& input) const;
@@ -25,7 +25,7 @@ public:
 	bool hasPressedEnter() const;
 
 
-	InputType getInput() const;
+	InputType getInput(const std::optional<sf::Event>& event) const;
 
 private:
 
