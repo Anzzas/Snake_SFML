@@ -3,53 +3,29 @@
 using namespace DisplaySettings;
 
 
-void Display::renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score)
+void Display::renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window)
 {
-    createWindow();
-
-
-    while (m_window.isOpen())
-    {
-        while (const std::optional event = m_window.pollEvent())
-        {
-            if (!isWindowOpen(event))
-                m_window.close();
-        }
 
         m_window.clear();
 
 
-        renderBorders();
+        renderBorders(m_window);
 
 
-        renderSnake(snakeBody);
+        renderSnake(snakeBody, m_window);
 
 
-        renderFood(food);
+        renderFood(food, m_window);
 
 
-        renderScore(score);
+        renderScore(score, m_window);
 
 
         m_window.display();
-    }
 }
 
 
-void Display::createWindow()
-{
-	m_window.create(sf::VideoMode({ window_Dimensions, window_Dimensions }), windowName);
-    m_window.setVerticalSyncEnabled(true);
-}
-
-
-bool Display::isWindowOpen(const std::optional<sf::Event>& event)
-{
-	return !event->is<sf::Event::Closed>();
-}
-
-
-void Display::renderBorders()
+void Display::renderBorders(sf::RenderWindow& m_window)
 {
     // Définir l'épaisseur de vos bordures
     const float borderThickness = 10.0f; // à vous de choisir
@@ -87,7 +63,7 @@ void Display::renderBorders()
     // etc.
 }
 
-void Display::renderSnake(const std::deque<Position>& snakeBody)
+void Display::renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindow& m_window)
 {
     for (const auto& e : snakeBody)
     {       
@@ -109,7 +85,7 @@ void Display::renderSnake(const std::deque<Position>& snakeBody)
 }
 
 
-void Display::renderFood(const Position& foodPos)
+void Display::renderFood(const Position& foodPos, sf::RenderWindow& m_window)
 {
     sf::CircleShape foodSprite{ cell_Size / 2 };
 
@@ -127,7 +103,7 @@ void Display::renderFood(const Position& foodPos)
 }
 
 
-void Display::renderScore(const int& score)
+void Display::renderScore(const int& score, sf::RenderWindow& m_window)
 {    
 
     sf::Text scoreText{ m_font, "Score: " + std::to_string(score) };

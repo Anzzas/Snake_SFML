@@ -54,10 +54,14 @@ private:
 	std::unique_ptr<Display> m_display;
 	int m_score;
 	bool m_isRunning;
+	sf::RenderWindow m_window;
+
+
+	void createWindow();
 
 
 	/** Loop where everythings in updated every frame (Render, Score, objects Positions)*/
-	void update();
+	void update(const std::optional<sf::Event>& event);
 
 
 	/** Collision CHECK for BORDERS and Snake's BODY*/
@@ -72,10 +76,13 @@ private:
 	void handleScore();
 
 
-	MenuSelection& getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty) const;
+	MenuSelection& getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event) const;
 
 
 	bool Menu(MenuType menuType) const;
+
+
+	bool isWindowOpen(const std::optional<sf::Event>& event);
 
 };
 

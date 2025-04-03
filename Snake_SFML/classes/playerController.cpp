@@ -51,15 +51,20 @@ const bool& PlayerController::isQuitReq() const
 }
 
 
-std::optional<Direction> PlayerController::getMenuDirection(const InputType& input) const
+std::optional<Direction> PlayerController::getMenuDirection(const std::optional<sf::Event>& event) const
 {
-
-	switch (input)
+	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 	{
-	case InputType::up_arrow: return Direction::up;
-	case InputType::down_arrow: return Direction::down;
-	default: return {};
+		switch (keyPressed->scancode)
+		{
+		case sf::Keyboard::Scan::Up: return Direction::up;
+
+		case sf::Keyboard::Scan::Down: return Direction::down;
+
+		default: return {};
+		}
 	}
+
 	return {};
 }
 

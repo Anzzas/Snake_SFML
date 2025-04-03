@@ -2,6 +2,7 @@
 #define PLAYERCONTROLLER_H
 #include "common.h"
 #include <optional>
+#include <SFML/Window/Event.hpp>
 
 /** Keyboard control manager*/
 class PlayerController
@@ -15,7 +16,7 @@ public:
 	Direction getDirection(Direction currentDirection, const std::optional<sf::Event>& event);
 
 
-	std::optional<Direction> getMenuDirection(const InputType& input) const;
+	std::optional<Direction> getMenuDirection(const std::optional<sf::Event>& event) const;
 
 
 	/** Detecting ESCAPE input and stop the game if pressed*/

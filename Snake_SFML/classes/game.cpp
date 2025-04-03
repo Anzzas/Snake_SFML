@@ -1,40 +1,59 @@
 #include "game.h"
+#include <SFML/Window.hpp>
 
 
 void Game::run()
 {
+
 	static bool firstStart{ true };
 
-	if (firstStart)
+
+	createWindow();
+
+
+	while (m_window.isOpen())
 	{
-		firstStart = false;
-		if (!Menu(MenuType::main_menu))
-			return;
-	}
+
+		while (const std::optional event{ m_window.pollEvent() })
+		{
+			if (!isWindowOpen(event) || !m_isRunning)
+				m_window.close();
+
+			else
+				update(event);
+		}
 
 
-	//m_display->displayLoadingText();
+		/*if (firstStart)
+		{
+			firstStart = false;
+			if (!Menu(MenuType::main_menu))
+				return;
+		}*/
 
 
-	//econio_sleep(GameSettings::loadingTime);
+		//m_display->displayLoadingText();
 
 
-	while (m_isRunning)
-	{
-		update();
+		//econio_sleep(GameSettings::loadingTime);
+
+
+		//update(event);
 
 
 		//econio_sleep(GameSettings::gameSpeed);
+
 	}
 }
 
-void Game::update()
+
+void Game::update(const std::optional<sf::Event>& event)
 {
 
-	m_display->render(m_snake->getBody(), m_food->getPos(), m_score);
+	m_display->renderGame(m_snake->getBody(), m_food->getPos(), m_score, m_window);
 
 
-	m_snake->move(m_controller->getDirection(m_snake->getDirection()));
+	m_snake->move(m_controller->getDirection(m_snake->getDirection(), event));
 
 
 	if (m_controller->isQuitReq() || checkCollision())
@@ -46,6 +65,7 @@ void Game::update()
 
 	handleScore();
 }
+
 
 bool Game::checkCollision() const
 {
@@ -65,6 +85,7 @@ bool Game::checkCollision() const
 	return false;
 }
 
+
 void Game::handleScore()
 {
 	if (m_snake->getBody()[0] == m_food->getPos())
@@ -78,12 +99,26 @@ void Game::handleScore()
 }
 
 
-MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty) const
+void Game::createWindow()
+{
+	m_window.create(sf::VideoMode({ DisplaySettings::window_Dimensions, DisplaySettings::window_Dimensions }), DisplaySettings::windowName);
+	m_window.setFramerateLimit(2);
+	//m_window.setVerticalSyncEnabled(true);
+}
+
+
+bool Game::isWindowOpen(const std::optional<sf::Event>& event)
+{
+	return !event->is<sf::Event::Closed>();
+}
+
+
+/*MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event) const
 {
 
 	while (true)
 	{
-		InputType input{ m_controller->getInput() };
+		InputType input{ m_controller->getInput(event) };
 
 
 		if (input == InputType::enter)
@@ -209,9 +244,10 @@ MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuTyp
 
 		m_display->renderMenu(m_score, input, MenuType::replay_menu, difficulty);
 	}
-}
+}*/
 
-bool Game::Menu(MenuType menuType) const
+
+/*bool Game::Menu(MenuType menuType) const
 {
 
 	MenuSelection selection{ menuType == MenuType::difficulty_menu ? MenuSelection::easy : MenuSelection::play };
@@ -256,12 +292,13 @@ bool Game::Menu(MenuType menuType) const
 
 
 	return true;
-}
+}*/
 
-bool Game::replayGame() const
+
+/*bool Game::replayGame() const
 {
 	econio_clrscr();
 
 
 	return Menu(MenuType::replay_menu);
-}
+}*/

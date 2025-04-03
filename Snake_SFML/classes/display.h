@@ -11,7 +11,6 @@ namespace DisplaySettings
 {
     inline const std::string windowName{ "Snake Game" };
     constexpr int window_Dimensions{ 500 };
-    constexpr int frameLimit{ 60 };
     constexpr int charSize{ 16 };
     constexpr float cell_Size{ 20.0f };
     constexpr float borderOffset{ 20.0f };
@@ -38,44 +37,33 @@ public:
      * Interface principale pour le rendu du jeu
      * Appelle toutes les autres fonctions de rendu
      */
-    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score);
-
-
-    /**
-     * Vérifie si la fenêtre est ouverte
-     */
-    bool isWindowOpen(const std::optional<sf::Event>& event);
+    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window);
 
 private:
-
-    /**
-    * Créer la fenêtre de jeu
-    */
-    void Display::createWindow();
 
 
     /**
      * Dessine les bordures du jeu
      */
-    void renderBorders();
+    void renderBorders(sf::RenderWindow& m_window);
 
 
     /**
      * Dessine le serpent (tête et corps)
      */
-    void renderSnake(const std::deque<Position>& snakeBody);
+    void renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindow& m_window);
 
 
     /**
      * Dessine la nourriture
      */
-    void renderFood(const Position& foodPos);
+    void renderFood(const Position& foodPos, sf::RenderWindow& m_window);
 
 
     /**
      * Affiche le score actuel
      */
-    void renderScore(const int& score);
+    void renderScore(const int& score, sf::RenderWindow& m_window);
 
 
     /**
@@ -88,10 +76,6 @@ private:
     * Convertit la position au centre réel du cerle 
     */
     sf::Vector2f positionShapeCenter(const sf::Vector2f& centerPos, const sf::CircleShape& shape) const;
-
-
-    // La fenêtre SFML
-    sf::RenderWindow m_window;
 
 
     // Police pour le texte

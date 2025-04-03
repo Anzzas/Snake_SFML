@@ -1,13 +1,19 @@
-﻿#include "../classes/display.h"
-#include "../classes/snake.h"
-#include "../classes/food.h"
+﻿#include "../classes/game.h"
 
 int main()
 {
-	Snake snake{};
-	Food food{ Position{20, 20} };
-	Display display{};
+	std::unique_ptr<Snake> snake{std::make_unique<Snake>()};
+
+	std::unique_ptr<Food> food{std::make_unique<Food>(Position::createRandomPosition(snake->getBody()))};
+
+	std::unique_ptr<Board> board{std::make_unique<Board>()};
+
+	std::unique_ptr<Display> display{std::make_unique<Display>()};
+
+	std::unique_ptr<PlayerController> playerController{std::make_unique<PlayerController>()};
 
 
-	display.renderGame(snake.getBody(), food.getPos(), 10);
+	Game game{ std::move(board), std::move(snake), std::move(food), std::move(playerController), std::move(display) };
+
+	game.run();
 }
