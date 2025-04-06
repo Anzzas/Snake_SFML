@@ -1,69 +1,77 @@
 #include "game.h"
-#include <SFML/Window.hpp>
 
 
 void Game::run()
 {
-
-	static bool firstStart{ true };
-
-
 	createWindow();
 
+	while (m_window.isOpen())
+	{
+		m_display->renderMenu(m_window, m_score, InputType::down_arrow, MenuType::main_menu, GameSettings::currentDifficulty);
+	}
+
+	/*
+	sf::Clock clock;
+
+
+	float timeBuffer{};
+
+
+	Direction currentDirection = m_snake->getDirection();
 
 	while (m_window.isOpen())
 	{
 
-		while (const std::optional event{ m_window.pollEvent() })
+		while (auto event = m_window.pollEvent())
 		{
-			if (!isWindowOpen(event) || !m_isRunning)
-				m_window.close();
 
-			else
-				update(event);
+			if (event->getIf<sf::Event::Closed>())
+			{
+				m_window.close();
+				break;
+			}
+
+
+			if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>())
+			{
+
+				currentDirection = m_controller->getDirection(currentDirection, event);
+
+
+				if (m_controller->isQuitReq())
+					m_window.close();
+			}
 		}
 
 
-		/*if (firstStart)
+		float deltaTime{ clock.restart().asSeconds() };
+
+		timeBuffer += deltaTime;
+
+		if (timeBuffer >= GameSettings::tickRate)
 		{
-			firstStart = false;
-			if (!Menu(MenuType::main_menu))
-				return;
-		}*/
+
+			m_snake->move(currentDirection);
 
 
-		//m_display->displayLoadingText();
+
+			if (checkCollision())
+			{
+				m_window.close();
+				break;
+			}
 
 
-		//econio_sleep(GameSettings::loadingTime);
+			handleScore();
 
 
-		//update(event);
+			timeBuffer -= GameSettings::tickRate;
+		}
 
 
-		//econio_sleep(GameSettings::gameSpeed);
-
+		m_display->renderGame(m_snake->getBody(), m_food->getPos(), m_score, m_window);
 	}
-}
-
-
-void Game::update(const std::optional<sf::Event>& event)
-{
-
-	m_display->renderGame(m_snake->getBody(), m_food->getPos(), m_score, m_window);
-
-
-	m_snake->move(m_controller->getDirection(m_snake->getDirection(), event));
-
-
-	if (m_controller->isQuitReq() || checkCollision())
-	{
-		m_isRunning = false;
-		return;
-	}
-
-
-	handleScore();
+	*/
 }
 
 
@@ -95,6 +103,8 @@ void Game::handleScore()
 		m_food->generate(Position::createRandomPosition(m_snake->getBody()));
 
 		m_snake->grow();
+
+		m_eatSound.play();
 	}
 }
 
@@ -102,8 +112,7 @@ void Game::handleScore()
 void Game::createWindow()
 {
 	m_window.create(sf::VideoMode({ DisplaySettings::window_Dimensions, DisplaySettings::window_Dimensions }), DisplaySettings::windowName);
-	m_window.setFramerateLimit(2);
-	//m_window.setVerticalSyncEnabled(true);
+	m_window.setVerticalSyncEnabled(true);
 }
 
 
@@ -113,7 +122,7 @@ bool Game::isWindowOpen(const std::optional<sf::Event>& event)
 }
 
 
-/*MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event) const
+MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event) const
 {
 
 	while (true)
@@ -242,30 +251,29 @@ bool Game::isWindowOpen(const std::optional<sf::Event>& event)
 		}
 
 
-		m_display->renderMenu(m_score, input, MenuType::replay_menu, difficulty);
+		//m_display->renderMenu(m_score, input, MenuType::replay_menu, difficulty);
 	}
-}*/
+}
 
 
-/*bool Game::Menu(MenuType menuType) const
+bool Game::Menu(MenuType menuType) const
 {
 
 	MenuSelection selection{ menuType == MenuType::difficulty_menu ? MenuSelection::easy : MenuSelection::play };
 
 
-	m_display->renderMenu(m_score, InputType::up_arrow, menuType, GameSettings::currentDifficulty); // Do once for the first frame
+	//m_display->renderMenu(m_score, InputType::up_arrow, menuType, GameSettings::currentDifficulty); // Do once for the first frame
 
 
-	selection = getMenuSelection(selection, menuType, GameSettings::currentDifficulty);
+	//selection = getMenuSelection(selection, menuType, GameSettings::currentDifficulty);
 
 
-	m_display->resetFlags();
+	//m_display->resetFlags();
 
 
 	switch (selection)
 	{
 	case MenuSelection::play:
-		econio_clrscr();
 		return true;
 	case MenuSelection::changeDifficulty:
 		Menu(MenuType::difficulty_menu);
@@ -285,20 +293,15 @@ bool Game::isWindowOpen(const std::optional<sf::Event>& event)
 
 
 	if (menuType == MenuType::difficulty_menu)
-	{
 		GameSettings::gameSpeed = GameSettings::difficultyMap.at(GameSettings::currentDifficulty);
-		econio_clrscr();
-	}
 
 
 	return true;
-}*/
+}
 
 
-/*bool Game::replayGame() const
+bool Game::replayGame() const
 {
-	econio_clrscr();
-
 
 	return Menu(MenuType::replay_menu);
-}*/
+}

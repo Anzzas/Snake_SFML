@@ -39,6 +39,10 @@ public:
      */
     void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window);
 
+
+    /** Displaying once the Replay Menu and the select Cursor in real time*/
+    void renderMenu(sf::RenderWindow& m_window, const int& score, const InputType& input, MenuType menuType, const DifficultyMode& difficulty);
+
 private:
 
 
@@ -64,6 +68,15 @@ private:
      * Affiche le score actuel
      */
     void renderScore(const int& score, sf::RenderWindow& m_window);
+
+
+    void renderMenuBorders(sf::RenderWindow& m_window);
+
+
+    void renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, sf::RenderWindow& m_window);
+
+
+    void renderMenuSelectCursor(const InputType& input, sf::RenderWindow& m_window);
 
 
     /**

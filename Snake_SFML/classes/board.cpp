@@ -3,8 +3,12 @@
 
 bool Board::isWall(const Position& pos) const
 {
-	if (pos.x == 0 || pos.x == Settings::boardWidth - 1 || pos.y == 0 || pos.y == Settings::boardHeight - 1)
-		return true;
 
-	return false;
+    if (pos.x == 0 || pos.y == 0)
+        return true;
+
+    if (pos.x >= Settings::boardWidth || pos.y >= Settings::boardHeight)
+        return true;
+
+    return false;
 }

@@ -8,35 +8,38 @@
 */
 Direction PlayerController::getDirection(Direction currentDirection, const std::optional<sf::Event>& event)
 {
-	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+	if (event)
 	{
-		switch (keyPressed->scancode)
+		if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 		{
-		case sf::Keyboard::Scan::Up:
-			if (currentDirection != Direction::down)
-				return Direction::up;
-			break;
+			switch (keyPressed->scancode)
+			{
+			case sf::Keyboard::Scan::Up:
+				if (currentDirection != Direction::down)
+					return Direction::up;
+				break;
 
-		case sf::Keyboard::Scan::Right:
-			if (currentDirection != Direction::left)
-				return Direction::right;
-			break;
+			case sf::Keyboard::Scan::Right:
+				if (currentDirection != Direction::left)
+					return Direction::right;
+				break;
 
-		case sf::Keyboard::Scan::Down:
-			if (currentDirection != Direction::up)
-				return Direction::down;
-			break;
+			case sf::Keyboard::Scan::Down:
+				if (currentDirection != Direction::up)
+					return Direction::down;
+				break;
 
-		case sf::Keyboard::Scan::Left:
-			if (currentDirection != Direction::right)
-				return Direction::left;
-			break;
+			case sf::Keyboard::Scan::Left:
+				if (currentDirection != Direction::right)
+					return Direction::left;
+				break;
 
-		case sf::Keyboard::Scan::Escape:
-			m_isQuitting = true;
-			[[fallthrough]];
+			case sf::Keyboard::Scan::Escape:
+				m_isQuitting = true;
+				[[fallthrough]];
 
-		default: return currentDirection;
+			default: return currentDirection;
+			}
 		}
 	}
 

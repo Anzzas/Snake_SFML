@@ -24,6 +24,7 @@ void Snake::move(Direction direction)
 		break;
 	}
 
+
 	for (size_t i = m_body.size() - 1; i > 0; i--)
 		m_body[i] = m_body[i - 1];
 

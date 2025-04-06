@@ -6,6 +6,8 @@
 #include "playerController.h"
 #include "display.h"
 #include <map>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 namespace GameSettings
 {
@@ -20,6 +22,7 @@ namespace GameSettings
 
 	constexpr int addScore{ 50 };
 	constexpr double loadingTime{ 1.5 };
+	constexpr float tickRate = 0.075f;
 }
 
 class Game
@@ -34,8 +37,17 @@ public:
 		, m_display{ std::move(display) }
 		, m_score{}
 		, m_isRunning{ true }
+		, m_eatBuffer{}
+		, m_eatSound{ m_eatBuffer }
 	{
 		m_food->generate(Position::createRandomPosition(m_snake->getBody()));
+
+		if (!m_eatBuffer.loadFromFile("audio/beep.mp3"))
+		{
+			// Gérer l'erreur de chargement
+			std::cout << "Cannot load beep.mp3\n";
+		}
+		m_eatSound.setBuffer(m_eatBuffer);
 	}
 
 
@@ -55,13 +67,11 @@ private:
 	int m_score;
 	bool m_isRunning;
 	sf::RenderWindow m_window;
+	sf::SoundBuffer m_eatBuffer;
+	sf::Sound m_eatSound;
 
 
 	void createWindow();
-
-
-	/** Loop where everythings in updated every frame (Render, Score, objects Positions)*/
-	void update(const std::optional<sf::Event>& event);
 
 
 	/** Collision CHECK for BORDERS and Snake's BODY*/

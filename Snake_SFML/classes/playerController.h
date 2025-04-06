@@ -12,6 +12,9 @@ public:
 	PlayerController() = default;
 
 
+	void processEvent(const sf::Event& event);
+
+
 	/** Converting inputs (arrow keys) into a Direction*/
 	Direction getDirection(Direction currentDirection, const std::optional<sf::Event>& event);
 

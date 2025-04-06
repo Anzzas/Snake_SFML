@@ -34,6 +34,9 @@ add_executable (Snake_SFML ${SFML_CLASS} ${GAME_CLASSES})
 file(COPY "${CMAKE_SOURCE_DIR}/Snake_SFML/police" 
      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
 
+file(COPY "${CMAKE_SOURCE_DIR}/Snake_SFML/audio" 
+     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_link_libraries(Snake_SFML
