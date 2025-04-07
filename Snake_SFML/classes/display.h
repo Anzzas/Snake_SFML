@@ -20,6 +20,9 @@ namespace DisplaySettings
     constexpr sf::Color border_Color{ sf::Color::Yellow };
     constexpr sf::Color background_Color{ sf::Color(50, 50, 50) };
     constexpr sf::Color text_Color{ sf::Color::White };
+    constexpr sf::Vector2f playAgainCursorPos{ 210.0f, 222.0f };
+    constexpr sf::Vector2f difficultyCursorPos{ 150.0f, 262.0f };
+    constexpr sf::Vector2f quitCursorPos{ 210.0f, 302.0f };
 }
 
 //* Class in charge of displaying everything
@@ -41,7 +44,7 @@ public:
 
 
     /** Displaying once the Replay Menu and the select Cursor in real time*/
-    void renderMenu(sf::RenderWindow& m_window, const int& score, const InputType& input, MenuType menuType, const DifficultyMode& difficulty);
+    void renderMenu(sf::RenderWindow& m_window, const int& score, const sf::Keyboard::Scancode& input, MenuType menuType, const DifficultyMode& difficulty);
 
 private:
 
@@ -76,7 +79,11 @@ private:
     void renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, sf::RenderWindow& m_window);
 
 
-    void renderMenuSelectCursor(const InputType& input, sf::RenderWindow& m_window);
+    void renderMenuSelectCursor(const sf::Keyboard::Scancode& input, sf::RenderWindow& m_window);
+
+
+    /** Position state to keep in memory the select Cursor position*/
+    sf::Vector2f m_currentCursorPos{ DisplaySettings::difficultyCursorPos };
 
 
     /**

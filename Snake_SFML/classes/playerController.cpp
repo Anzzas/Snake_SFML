@@ -84,29 +84,27 @@ std::optional<Direction> PlayerController::getMenuDirection(const std::optional<
 }*/
 
 
-InputType PlayerController::getInput(const std::optional<sf::Event>& event) const
+sf::Keyboard::Scancode PlayerController::getInput(const std::optional<sf::Event>& event) const
 {
 
 	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 	{
 		switch (keyPressed->scancode)
 		{
-		case sf::Keyboard::Scan::Up: return InputType::up_arrow;
+		case sf::Keyboard::Scan::Up: return sf::Keyboard::Scancode::Up;
 
-		case sf::Keyboard::Scan::Right: return InputType::right_arrow;
+		case sf::Keyboard::Scan::Right: return sf::Keyboard::Scan::Right;
 
-		case sf::Keyboard::Scan::Down: return InputType::down_arrow;
+		case sf::Keyboard::Scan::Down: return sf::Keyboard::Scan::Down;
 
-		case sf::Keyboard::Scan::Left: return InputType::left_arrow;
+		case sf::Keyboard::Scan::Left: return sf::Keyboard::Scan::Left;
 
-		case sf::Keyboard::Scan::Escape: return InputType::escape;
+		case sf::Keyboard::Scan::Escape: return sf::Keyboard::Scan::Escape;
 
-		case sf::Keyboard::Scan::Enter: return InputType::enter;
-
-		default: return InputType::none_key;
+		case sf::Keyboard::Scan::Enter: return sf::Keyboard::Scan::Enter;
 		}
 	}
 
 
-	return InputType::none_key;
+	return {};
 }

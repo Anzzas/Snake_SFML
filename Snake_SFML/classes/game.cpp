@@ -5,9 +5,23 @@ void Game::run()
 {
 	createWindow();
 
+
+	m_display->renderMenu(m_window, m_score, sf::Keyboard::Scancode::Up, MenuType::main_menu, GameSettings::currentDifficulty); // Do once for the first frame
+
+
 	while (m_window.isOpen())
 	{
-		m_display->renderMenu(m_window, m_score, InputType::down_arrow, MenuType::main_menu, GameSettings::currentDifficulty);
+		while (auto event = m_window.pollEvent())
+		{
+			if (event->getIf<sf::Event::Closed>())
+			{
+				m_window.close();
+				break;
+			}
+
+			if (event->getIf<sf::Event::KeyPressed>())
+				Menu(MenuType::main_menu, event);
+		}
 	}
 
 	/*
@@ -122,19 +136,20 @@ bool Game::isWindowOpen(const std::optional<sf::Event>& event)
 }
 
 
-MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event) const
+MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event)
 {
 
 	while (true)
 	{
-		InputType input{ m_controller->getInput(event) };
+		//InputType input{ m_controller->getInput(event) };
+		sf::Keyboard::Scancode input{ m_controller->getInput(event) };
 
 
-		if (input == InputType::enter)
+		if (input == sf::Keyboard::Scancode::Enter)
 			return selection;
 
 
-		if (input == InputType::up_arrow || input == InputType::down_arrow)
+		if (input == sf::Keyboard::Scancode::Up || input == sf::Keyboard::Scancode::Down)
 		{
 
 			if (menuType == MenuType::main_menu || menuType == MenuType::replay_menu)
@@ -142,7 +157,7 @@ MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuTyp
 
 				switch (input)
 				{
-				case InputType::up_arrow:
+				case sf::Keyboard::Scancode::Up:
 
 					switch (selection)
 					{
@@ -165,7 +180,7 @@ MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuTyp
 					break;
 
 
-				case InputType::down_arrow:
+				case sf::Keyboard::Scancode::Down:
 
 					switch (selection)
 					{
@@ -199,7 +214,7 @@ MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuTyp
 
 				switch (input)
 				{
-				case InputType::up_arrow:
+				case sf::Keyboard::Scancode::Up:
 
 					switch (selection)
 					{
@@ -222,7 +237,7 @@ MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuTyp
 					break;
 
 
-				case InputType::down_arrow:
+				case sf::Keyboard::Scancode::Down:
 
 					switch (selection)
 					{
@@ -251,21 +266,21 @@ MenuSelection& Game::getMenuSelection(MenuSelection& selection, MenuType menuTyp
 		}
 
 
-		//m_display->renderMenu(m_score, input, MenuType::replay_menu, difficulty);
+		m_display->renderMenu(m_window, m_score, input, MenuType::replay_menu, difficulty);
 	}
 }
 
 
-bool Game::Menu(MenuType menuType) const
+bool Game::openMenu(MenuType menuType, const std::optional<sf::Event>& event)
 {
 
 	MenuSelection selection{ menuType == MenuType::difficulty_menu ? MenuSelection::easy : MenuSelection::play };
 
 
-	//m_display->renderMenu(m_score, InputType::up_arrow, menuType, GameSettings::currentDifficulty); // Do once for the first frame
+	m_display->renderMenu(m_window, m_score, sf::Keyboard::Scancode::Up, menuType, GameSettings::currentDifficulty);
 
 
-	//selection = getMenuSelection(selection, menuType, GameSettings::currentDifficulty);
+	selection = getMenuSelection(selection, menuType, GameSettings::currentDifficulty, event);
 
 
 	//m_display->resetFlags();
@@ -276,7 +291,7 @@ bool Game::Menu(MenuType menuType) const
 	case MenuSelection::play:
 		return true;
 	case MenuSelection::changeDifficulty:
-		Menu(MenuType::difficulty_menu);
+		openMenu(MenuType::difficulty_menu, event);
 		break;
 	case MenuSelection::quit: return false;
 
@@ -300,8 +315,8 @@ bool Game::Menu(MenuType menuType) const
 }
 
 
-bool Game::replayGame() const
+bool Game::replayGame(const std::optional<sf::Event>& event)
 {
 
-	return Menu(MenuType::replay_menu);
+	return Menu(MenuType::replay_menu, event);
 }

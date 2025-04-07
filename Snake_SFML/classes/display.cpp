@@ -119,7 +119,7 @@ void Display::renderScore(const int& score, sf::RenderWindow& m_window)
 }
 
 
-void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const InputType& input, MenuType menuType, const DifficultyMode& difficulty)
+void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const sf::Keyboard::Scancode& input, MenuType menuType, const DifficultyMode& difficulty)
 {
     m_window.clear();
 
@@ -130,7 +130,7 @@ void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const Inp
     renderMenuText(score, menuType, difficulty, m_window);
 
 
-    renderMenuSelectCursor(input);
+    renderMenuSelectCursor(input, m_window);
 
 
     m_window.display();
@@ -350,18 +350,19 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
 }
 
 
-void Display::renderMenuSelectCursor(const InputType& input, sf::RenderWindow& m_window)
+void Display::renderMenuSelectCursor(const sf::Keyboard::Scancode& input, sf::RenderWindow& m_window)
 {
 
-    if (input == InputType::up_arrow || input == InputType::down_arrow)
+    if (input == sf::Keyboard::Scancode::Up || input == sf::Keyboard::Scancode::Down)
     {
-        econio_gotoxy(static_cast<int>(m_currentCursorPos.x), static_cast<int>(m_currentCursorPos.y));
-        std::cout << " ";
+        sf::Text cursor{ m_font, " "};
+        cursor.setPosition(sf::Vector2f{ static_cast<float>(m_currentCursorPos.x), static_cast<float>(m_currentCursorPos.y) });
+        m_window.draw(cursor);
 
 
         switch (input)
         {
-        case InputType::up_arrow:
+        case sf::Keyboard::Scancode::Up:
 
             if (m_currentCursorPos == playAgainCursorPos)
                 m_currentCursorPos = quitCursorPos;
@@ -378,7 +379,7 @@ void Display::renderMenuSelectCursor(const InputType& input, sf::RenderWindow& m
             break;
 
 
-        case InputType::down_arrow:
+        case sf::Keyboard::Scancode::Down:
 
             if (m_currentCursorPos == playAgainCursorPos)
                 m_currentCursorPos = difficultyCursorPos;
@@ -392,9 +393,11 @@ void Display::renderMenuSelectCursor(const InputType& input, sf::RenderWindow& m
                 m_currentCursorPos = playAgainCursorPos;
         }
 
-
-        econio_gotoxy(static_cast<int>(m_currentCursorPos.x), static_cast<int>(m_currentCursorPos.y));
-        std::cout << ">";
+        cursor.setString(">");
+        cursor.setCharacterSize(charSize);
+        cursor.setFillColor(text_Color);
+        cursor.setPosition(sf::Vector2f{ m_currentCursorPos.x, m_currentCursorPos.y });
+        m_window.draw(cursor);
     }
 }
 

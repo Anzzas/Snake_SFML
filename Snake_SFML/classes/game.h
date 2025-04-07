@@ -55,7 +55,7 @@ public:
 	void run();
 
 
-	bool replayGame() const;
+	bool replayGame(const std::optional<sf::Event>& event);
 
 private:
 
@@ -86,10 +86,10 @@ private:
 	void handleScore();
 
 
-	MenuSelection& getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event) const;
+	MenuSelection& getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event);
 
 
-	bool Menu(MenuType menuType) const;
+	bool openMenu(MenuType menuType, const std::optional<sf::Event>& event);
 
 
 	bool isWindowOpen(const std::optional<sf::Event>& event);
