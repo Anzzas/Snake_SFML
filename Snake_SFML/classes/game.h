@@ -5,6 +5,7 @@
 #include "food.h"
 #include "playerController.h"
 #include "display.h"
+#include "menu.h"
 #include <map>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -29,12 +30,13 @@ class Game
 {
 public:
 
-	Game(std::unique_ptr<Board> board, std::unique_ptr<Snake> snake, std::unique_ptr<Food> food, std::unique_ptr<PlayerController> controller, std::unique_ptr<Display> display)
+	Game(std::unique_ptr<Board> board, std::unique_ptr<Snake> snake, std::unique_ptr<Food> food, std::unique_ptr<PlayerController> controller, std::unique_ptr<Display> display, std::unique_ptr<Menu> menu)
 		: m_board{ std::move(board) }
 		, m_snake{ std::move(snake) }
 		, m_food{ std::move(food) }
 		, m_controller{ std::move(controller) }
 		, m_display{ std::move(display) }
+		, m_menu{ std::move(menu) }
 		, m_score{}
 		, m_isRunning{ true }
 		, m_eatBuffer{}
@@ -64,6 +66,7 @@ private:
 	std::unique_ptr<Food> m_food;
 	std::unique_ptr<PlayerController> m_controller;
 	std::unique_ptr<Display> m_display;
+	std::unique_ptr<Menu> m_menu;
 	int m_score;
 	bool m_isRunning;
 	sf::RenderWindow m_window;
@@ -84,15 +87,6 @@ private:
 	* Then generating a new Position for the food
 	* And growing the Snake body by ONE */
 	void handleScore();
-
-
-	MenuSelection& getMenuSelection(MenuSelection& selection, MenuType menuType, DifficultyMode& difficulty, const std::optional<sf::Event>& event);
-
-
-	bool openMenu(MenuType menuType, const std::optional<sf::Event>& event);
-
-
-	bool isWindowOpen(const std::optional<sf::Event>& event);
 
 };
 

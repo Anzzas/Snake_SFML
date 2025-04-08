@@ -29,7 +29,7 @@ public:
 	bool hasPressedEnter() const;
 
 
-	sf::Keyboard::Scancode getInput(const std::optional<sf::Event>& event) const;
+	sf::Keyboard::Scancode getInput(const sf::Event::KeyPressed* keyEvent) const;
 
 private:
 

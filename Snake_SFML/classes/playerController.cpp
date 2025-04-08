@@ -84,12 +84,12 @@ std::optional<Direction> PlayerController::getMenuDirection(const std::optional<
 }*/
 
 
-sf::Keyboard::Scancode PlayerController::getInput(const std::optional<sf::Event>& event) const
+sf::Keyboard::Scancode PlayerController::getInput(const sf::Event::KeyPressed* keyEvent) const
 {
 
-	if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+	if (keyEvent)
 	{
-		switch (keyPressed->scancode)
+		switch (keyEvent->scancode)
 		{
 		case sf::Keyboard::Scan::Up: return sf::Keyboard::Scancode::Up;
 

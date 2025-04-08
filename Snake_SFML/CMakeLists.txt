@@ -24,7 +24,10 @@ set(GAME_CLASSES
     classes/food.h
     classes/food.cpp 
     classes/board.h
-    classes/board.cpp)
+    classes/board.cpp
+    classes/menu.cpp
+    classes/menu.h
+)
 
 
 # Add source to this project's executable.
