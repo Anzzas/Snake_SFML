@@ -13,22 +13,63 @@ void Game::run()
 	{
 		while (auto event = m_window.pollEvent())
 		{
+
 			if (event->getIf<sf::Event::Closed>())
 			{
 				m_window.close();
 				break;
 			}
 
-			if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>())
-			{
-				m_menu->navigate(MenuType::main_menu, keyEvent, GameSettings::currentDifficulty);
+			const auto* keyEvent = event->getIf<sf::Event::KeyPressed>();
 
-				m_display->renderMenu(m_window, m_score, m_controller->getInput(keyEvent), MenuType::main_menu, GameSettings::currentDifficulty);
+			if (keyEvent && (keyEvent->scancode == sf::Keyboard::Scancode::Up || keyEvent->scancode == sf::Keyboard::Scancode::Down))
+			{
+				m_menu->navigate(m_menu->getCurrentMenu(), keyEvent, GameSettings::currentDifficulty);
+
+				m_display->renderMenu(m_window, m_score, m_controller->getInput(keyEvent), m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
+			}
+
+			if (keyEvent && keyEvent->scancode == sf::Keyboard::Scancode::Enter)
+			{
+				switch (m_menu->getCurrentSelection())
+				{
+				case MenuSelection::play: 
+					play();
+					break;
+
+
+				case MenuSelection::changeDifficulty:
+				{
+					m_menu->setCurrentMenu(MenuType::difficulty_menu);
+					break;
+
+				}
+				case MenuSelection::quit:
+					m_window.close();
+					m_isRunning = false;
+					break;
+
+
+				case MenuSelection::easy:
+					GameSettings::currentDifficulty = DifficultyMode::easy;
+					break;
+
+				case MenuSelection::medium:
+					GameSettings::currentDifficulty = DifficultyMode::medium;
+					break;
+
+
+				case MenuSelection::hard:
+					GameSettings::currentDifficulty = DifficultyMode::hard;
+				}
 			}
 		}
 	}
+}
 
-	/*
+
+void Game::play()
+{
 	sf::Clock clock;
 
 
@@ -89,7 +130,6 @@ void Game::run()
 
 		m_display->renderGame(m_snake->getBody(), m_food->getPos(), m_score, m_window);
 	}
-	*/
 }
 
 
@@ -134,8 +174,8 @@ void Game::createWindow()
 }
 
 
-/*bool Game::replayGame(const std::optional<sf::Event>& event)
+bool Game::replayGame(/*const std::optional<sf::Event>& event*/)
 {
-
-	return openMenu(MenuType::replay_menu, event);
-}*/
+	return m_isRunning;
+	//return openMenu(MenuType::replay_menu, event);
+}

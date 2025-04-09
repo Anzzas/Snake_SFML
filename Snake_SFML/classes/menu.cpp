@@ -2,27 +2,12 @@
 
 void Menu::navigate(MenuType menuType, const sf::Event::KeyPressed* keyEvent, DifficultyMode& currentDifficulty)
 {
-	// 1. définir la selection la première fois en fonction du type du menu
-	if (m_firstSelection)
-	{
-		m_currentSelection = m_currentMenu == MenuType::difficulty_menu ? MenuSelection::easy : MenuSelection::play;
-		m_firstSelection = false;
-	}
-
-
-	// 2. Avoir la nouvelle selection si le joueur appuis sur les touches directionelles
 	m_currentSelection = getNewSelection(m_currentSelection, m_currentMenu, currentDifficulty, keyEvent);
-
-	/*if (menuType == MenuType::difficulty_menu)
-		GameSettings::gameSpeed = GameSettings::difficultyMap.at(GameSettings::currentDifficulty);*/
 }
 
 
 MenuSelection& Menu::getNewSelection(MenuSelection& currentSelection, MenuType menuType, DifficultyMode& difficulty, const sf::Event::KeyPressed* keyEvent)
 {
-
-	if (keyEvent->scancode == sf::Keyboard::Scancode::Up || keyEvent->scancode == sf::Keyboard::Scancode::Down)
-	{
 
 		if (menuType == MenuType::main_menu || menuType == MenuType::replay_menu)
 		{
@@ -114,8 +99,6 @@ MenuSelection& Menu::getNewSelection(MenuSelection& currentSelection, MenuType m
 				}
 			}
 		}
-	}
 
 	return currentSelection;
 }
-

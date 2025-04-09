@@ -12,18 +12,18 @@
 
 namespace GameSettings
 {
-	inline const std::map<DifficultyMode, double> difficultyMap{
-	{DifficultyMode::easy, 0.1},
-	{DifficultyMode::medium, 0.05},
-	{DifficultyMode::hard, 0.03} };
+	inline const std::map<DifficultyMode, float> difficultyMap{
+	{DifficultyMode::easy, 0.1f},
+	{DifficultyMode::medium, 0.075f},
+	{DifficultyMode::hard, 0.05f} };
 
-	inline DifficultyMode currentDifficulty{ DifficultyMode::easy };
+	inline DifficultyMode currentDifficulty{ DifficultyMode::medium };
 
-	inline double gameSpeed{ difficultyMap.at(currentDifficulty) };
+	inline float tickRate = difficultyMap.at(currentDifficulty);
 
 	constexpr int addScore{ 50 };
+
 	constexpr double loadingTime{ 1.5 };
-	constexpr float tickRate = 0.075f;
 }
 
 class Game
@@ -57,7 +57,7 @@ public:
 	void run();
 
 
-	bool replayGame(const std::optional<sf::Event>& event);
+	bool replayGame(/*const std::optional<sf::Event>& event*/);
 
 private:
 
@@ -88,6 +88,8 @@ private:
 	* And growing the Snake body by ONE */
 	void handleScore();
 
+
+	void play();
 };
 
 #endif
