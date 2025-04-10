@@ -6,13 +6,16 @@ void Game::run()
 	createWindow();
 
 
-	m_display->renderMenu(m_window, m_score, sf::Keyboard::Scancode::Up, MenuType::main_menu, GameSettings::currentDifficulty); // Do once for the first frame
+	m_display->renderMenu(m_window, m_score, std::nullopt, MenuType::main_menu, GameSettings::currentDifficulty); // Do once for the first frame
 
 
 	while (m_window.isOpen())
 	{
 		while (auto event = m_window.pollEvent())
 		{
+			const auto* keyEvent = event->getIf<sf::Event::KeyPressed>();
+
+			m_display->renderMenu(m_window, m_score, event, m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
 
 			if (event->getIf<sf::Event::Closed>())
 			{
@@ -20,27 +23,32 @@ void Game::run()
 				break;
 			}
 
-			const auto* keyEvent = event->getIf<sf::Event::KeyPressed>();
 
 			if (keyEvent && (keyEvent->scancode == sf::Keyboard::Scancode::Up || keyEvent->scancode == sf::Keyboard::Scancode::Down))
 			{
 				m_menu->navigate(m_menu->getCurrentMenu(), keyEvent, GameSettings::currentDifficulty);
-
-				m_display->renderMenu(m_window, m_score, m_controller->getInput(keyEvent), m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
 			}
+
 
 			if (keyEvent && keyEvent->scancode == sf::Keyboard::Scancode::Enter)
 			{
+
 				switch (m_menu->getCurrentSelection())
 				{
 				case MenuSelection::play: 
+
+					if (m_menu->getCurrentMenu() == MenuType::replay_menu)
+						return;
+
 					play();
+
 					break;
 
 
 				case MenuSelection::changeDifficulty:
 				{
 					m_menu->setCurrentMenu(MenuType::difficulty_menu);
+					m_display->resetCursorPos();
 					break;
 
 				}
@@ -52,15 +60,24 @@ void Game::run()
 
 				case MenuSelection::easy:
 					GameSettings::currentDifficulty = DifficultyMode::easy;
+					GameSettings::tickRate = GameSettings::difficultyMap.at(GameSettings::currentDifficulty);
+					m_menu->setCurrentMenu(m_menu->getPreviousMenu());
+					m_display->resetCursorPos();
 					break;
 
 				case MenuSelection::medium:
 					GameSettings::currentDifficulty = DifficultyMode::medium;
+					GameSettings::tickRate = GameSettings::difficultyMap.at(GameSettings::currentDifficulty);
+					m_menu->setCurrentMenu(m_menu->getPreviousMenu());
+					m_display->resetCursorPos();
 					break;
 
 
 				case MenuSelection::hard:
 					GameSettings::currentDifficulty = DifficultyMode::hard;
+					GameSettings::tickRate = GameSettings::difficultyMap.at(GameSettings::currentDifficulty);
+					m_menu->setCurrentMenu(m_menu->getPreviousMenu());
+					m_display->resetCursorPos();
 				}
 			}
 		}
@@ -116,7 +133,9 @@ void Game::play()
 
 			if (checkCollision())
 			{
-				m_window.close();
+				//m_window.close();
+				m_menu->setCurrentMenu(MenuType::replay_menu);
+				m_display->renderMenu(m_window, m_score, m_window.pollEvent(), m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
 				break;
 			}
 

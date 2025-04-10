@@ -20,9 +20,10 @@ namespace DisplaySettings
     constexpr sf::Color border_Color{ sf::Color::Yellow };
     constexpr sf::Color background_Color{ sf::Color(50, 50, 50) };
     constexpr sf::Color text_Color{ sf::Color::White };
-    constexpr sf::Vector2f playAgainCursorPos{ 210.0f, 222.0f };
-    constexpr sf::Vector2f difficultyCursorPos{ 150.0f, 262.0f };
-    constexpr sf::Vector2f quitCursorPos{ 210.0f, 302.0f };
+    constexpr sf::Vector2f option1Pos{ 210.0f, 222.0f };
+    constexpr sf::Vector2f option2Pos{ 150.0f, 262.0f };
+    constexpr sf::Vector2f option2PosBis{ 200.0f, 262.0f };
+    constexpr sf::Vector2f option3Pos{ 210.0f, 302.0f };
 }
 
 //* Class in charge of displaying everything
@@ -44,7 +45,10 @@ public:
 
 
     /** Displaying once the Replay Menu and the select Cursor in real time*/
-    void renderMenu(sf::RenderWindow& m_window, const int& score, const sf::Keyboard::Scancode& input, MenuType menuType, const DifficultyMode& difficulty);
+    void renderMenu(sf::RenderWindow& m_window, const int& score, const std::optional<sf::Event>& input, MenuType menuType, const DifficultyMode& difficulty);
+
+
+    void resetCursorPos() { m_currentCursorPos = DisplaySettings::option1Pos; }
 
 private:
 
@@ -79,11 +83,11 @@ private:
     void renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, sf::RenderWindow& m_window);
 
 
-    void renderMenuSelectCursor(const sf::Keyboard::Scancode& input, sf::RenderWindow& m_window);
+    void renderMenuSelectCursor(const std::optional<sf::Event>& input, sf::RenderWindow& m_window, MenuType menuType);
 
 
     /** Position state to keep in memory the select Cursor position*/
-    sf::Vector2f m_currentCursorPos{ DisplaySettings::difficultyCursorPos };
+    sf::Vector2f m_currentCursorPos{ DisplaySettings::option1Pos };
 
 
     /**

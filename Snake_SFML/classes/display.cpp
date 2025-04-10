@@ -119,7 +119,7 @@ void Display::renderScore(const int& score, sf::RenderWindow& m_window)
 }
 
 
-void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const sf::Keyboard::Scancode& input, MenuType menuType, const DifficultyMode& difficulty)
+void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const std::optional<sf::Event>& input, MenuType menuType, const DifficultyMode& difficulty)
 {
     m_window.clear();
 
@@ -130,7 +130,7 @@ void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const sf:
     renderMenuText(score, menuType, difficulty, m_window);
 
 
-    renderMenuSelectCursor(input, m_window);
+    renderMenuSelectCursor(input, m_window, menuType);
 
 
     m_window.display();
@@ -234,7 +234,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
 
     text2Prefix.setCharacterSize(charSize);
     text2Prefix.setFillColor(text_Color);
-    text2Prefix.setPosition(sf::Vector2f{ 180.0f, 150.0f });
+    text2Prefix.setPosition(sf::Vector2f{ 180.0f, 160.0f });
     m_window.draw(text2Prefix);
 
 
@@ -270,7 +270,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
 
     text2.setCharacterSize(charSize);
     text2.setFillColor(text_Color);
-    text2.setPosition(sf::Vector2f{ 280.0f, 150.0f });
+    text2.setPosition(sf::Vector2f{ menuType == MenuType::replay_menu ? 280.0f : 250.0f, 160.0f });
     m_window.draw(text2);
 
 
@@ -289,7 +289,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
         option1.setString("Play");
         break;
     case MenuType::replay_menu:
-        option1.setString("Play again");
+        option1.setString("Replay");
         break;
     case MenuType::difficulty_menu:
         option1.setString("Easy");
@@ -350,47 +350,49 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
 }
 
 
-void Display::renderMenuSelectCursor(const sf::Keyboard::Scancode& input, sf::RenderWindow& m_window)
+void Display::renderMenuSelectCursor(const std::optional<sf::Event>& input, sf::RenderWindow& m_window, MenuType menuType)
 {
 
-    if (input == sf::Keyboard::Scancode::Up || input == sf::Keyboard::Scancode::Down)
-    {
         sf::Text cursor{ m_font, " "};
         cursor.setPosition(sf::Vector2f{ static_cast<float>(m_currentCursorPos.x), static_cast<float>(m_currentCursorPos.y) });
         m_window.draw(cursor);
 
-
-        switch (input)
+        if (input && input->getIf<sf::Event::KeyPressed>())
         {
-        case sf::Keyboard::Scancode::Up:
+            const auto* keyEvent = input->getIf<sf::Event::KeyPressed>();
 
-            if (m_currentCursorPos == playAgainCursorPos)
-                m_currentCursorPos = quitCursorPos;
+            switch (keyEvent->scancode)
+            {
+            case sf::Keyboard::Scancode::Up:
 
-
-            else if (m_currentCursorPos == difficultyCursorPos)
-                m_currentCursorPos = playAgainCursorPos;
-
-
-            else if (m_currentCursorPos == quitCursorPos)
-                m_currentCursorPos = difficultyCursorPos;
+                if (m_currentCursorPos == option1Pos)
+                    m_currentCursorPos = option3Pos;
 
 
-            break;
+                else if (m_currentCursorPos == option2Pos || m_currentCursorPos == option2PosBis)
+                    m_currentCursorPos = option1Pos;
 
 
-        case sf::Keyboard::Scancode::Down:
-
-            if (m_currentCursorPos == playAgainCursorPos)
-                m_currentCursorPos = difficultyCursorPos;
+                else if (m_currentCursorPos == option3Pos)
+                    m_currentCursorPos = menuType == MenuType::difficulty_menu ? option2PosBis : option2Pos;
 
 
-            else if (m_currentCursorPos == difficultyCursorPos)
-                m_currentCursorPos = quitCursorPos;
+                break;
 
 
-            else if (m_currentCursorPos == quitCursorPos)
-                m_currentCursorPos = playAgainCursorPos;
+            case sf::Keyboard::Scancode::Down:
+
+                if (m_currentCursorPos == option1Pos)
+                    m_currentCursorPos = menuType == MenuType::difficulty_menu ? option2PosBis : option2Pos;
+
+
+                else if (m_currentCursorPos == option2Pos || m_currentCursorPos == option2PosBis)
+                    m_currentCursorPos = option3Pos;
+
+
+                else if (m_currentCursorPos == option3Pos)
+                    m_currentCursorPos = option1Pos;
+            }
         }
 
         cursor.setString(">");
@@ -398,7 +400,6 @@ void Display::renderMenuSelectCursor(const sf::Keyboard::Scancode& input, sf::Re
         cursor.setFillColor(text_Color);
         cursor.setPosition(sf::Vector2f{ m_currentCursorPos.x, m_currentCursorPos.y });
         m_window.draw(cursor);
-    }
 }
 
 

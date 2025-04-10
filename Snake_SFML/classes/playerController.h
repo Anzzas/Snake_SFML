@@ -12,9 +12,6 @@ public:
 	PlayerController() = default;
 
 
-	void processEvent(const sf::Event& event);
-
-
 	/** Converting inputs (arrow keys) into a Direction*/
 	Direction getDirection(Direction currentDirection, const std::optional<sf::Event>& event);
 
@@ -24,12 +21,6 @@ public:
 
 	/** Detecting ESCAPE input and stop the game if pressed*/
 	const bool& isQuitReq() const;
-
-
-	bool hasPressedEnter() const;
-
-
-	sf::Keyboard::Scancode getInput(const sf::Event::KeyPressed* keyEvent) const;
 
 private:
 

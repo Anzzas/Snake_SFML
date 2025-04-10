@@ -10,6 +10,7 @@ public:
 	Menu()
 		: m_currentSelection{ MenuSelection::play }
 		, m_currentMenu{ MenuType::main_menu }
+		, m_previousMenu{ MenuType::main_menu }
 	{
 	}
 
@@ -22,9 +23,13 @@ public:
 
 	const MenuType& getCurrentMenu() const { return m_currentMenu; }
 
+
+	const MenuType& getPreviousMenu() const { return m_previousMenu; }
+
 	
 	void setCurrentMenu(MenuType menuType) 
 	{ 
+		m_previousMenu = m_currentMenu;
 		m_currentMenu = menuType;
 		m_currentSelection = menuType == MenuType::difficulty_menu ? MenuSelection::easy : MenuSelection::play;
 	}
@@ -38,6 +43,9 @@ private:
 
 
 	MenuType m_currentMenu;
+
+
+	MenuType m_previousMenu;
 };
 
 #endif
