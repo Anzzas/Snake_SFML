@@ -1,59 +1,70 @@
-Description
+# Snake SFML
+
+A classic Snake game developed in C++ with the SFML graphics library.
+
+![Snake Game](https://github.com/yourusername/Snake_SFML/raw/main/screenshot.png)
+*You can add a screenshot of your game here*
+
+## Description
+
 Control a snake moving on a game board, eat food to grow, and avoid hitting the walls or your own body. A modern version of the 90s classic!
-Features
 
-Smooth snake movement
-Score system with high score saving
-Main menu with multiple options
-Responsive sound effects
-Multiple difficulty levels
-Collision detection with the edges and the snake's body
-Attractive graphical interface
+## Features
 
-Installation
-Download and Play
+- Smooth snake movement
+- Score system with high score saving
+- Main menu with multiple options
+- Responsive sound effects
+- Multiple difficulty levels
+- Collision detection with the edges and the snake's body
+- Attractive graphical interface
 
-Download the latest release from the "Releases" section
-Extract the zip archive
-Run Snake_SFML.exe
+## Installation
 
-How to Play
+### Download and Play
 
-Arrow keys: Control the snake
-Escape: Quit the game
-Enter: Select an option in the menu
+1. Download the latest release from the "Releases" section
+2. Extract the zip archive
+3. Run `Snake_SFML.exe`
 
-Technologies Used
+## How to Play
 
-C++17
-SFML 2.6
-CMake
+- **Arrow keys**: Control the snake
+- **Escape**: Quit the game
+- **Enter**: Select an option in the menu
 
-Building from Source
-Prerequisites
+## Technologies Used
 
-C++17 or higher
-CMake 3.0 or higher
-SFML 2.6 or higher
+- C++17
+- SFML 2.6
+- CMake
 
-Steps
+## Building from Source
 
-Clone the repository: git clone https://github.com/yourusername/Snake_SFML.git
-Create a build directory: mkdir build && cd build
-Generate build files: cmake ..
-Compile: cmake --build .
-The compiled game will be in build/Snake_SFML.exe
+### Prerequisites
+- C++17 or higher
+- CMake 3.0 or higher
+- SFML 2.6 or higher
 
-Project Structure
+### Steps
+1. Clone the repository: `git clone https://github.com/yourusername/Snake_SFML.git`
+2. Create a build directory: `mkdir build && cd build`
+3. Generate build files: `cmake ..`
+4. Compile: `cmake --build .`
+5. The compiled game will be in `build/Snake_SFML.exe`
 
-classes/: Contains the game class definitions
-SFML/: Main files and entry point
-police/: Fonts used in the game
-audio/: Sound files
+## Project Structure
 
-Future Improvements
+- `classes/`: Contains the game class definitions
+- `SFML/`: Main files and entry point
+- `police/`: Fonts used in the game
+- `audio/`: Sound files
 
-Add multiplayer mode
-Implementation of power-ups
-Levels with obstacles
-Online leaderboard
+## Future Improvements
+
+- Add multiplayer mode
+- Implementation of power-ups
+- Levels with obstacles
+- Online leaderboard
+
+Feel free to open an issue if you encounter any problems or have suggestions for improvement!
