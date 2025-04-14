@@ -6,16 +6,6 @@ A classic Snake game developed in C++ with the SFML graphics library.
 
 Control a snake moving on a game board, eat food to grow, and avoid hitting the walls or your own body. A modern version of the 90s classic!
 
-## Features
-
-- Smooth snake movement
-- Score system with high score saving
-- Main menu with multiple options
-- Responsive sound effects
-- Multiple difficulty levels
-- Collision detection with the edges and the snake's body
-- Attractive graphical interface
-
 ## Installation
 
 ### Download and Play
