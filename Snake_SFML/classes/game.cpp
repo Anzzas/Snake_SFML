@@ -133,7 +133,6 @@ void Game::play()
 
 			if (checkCollision())
 			{
-				//m_window.close();
 				m_menu->setCurrentMenu(MenuType::replay_menu);
 				m_display->renderMenu(m_window, m_score, m_window.pollEvent(), m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
 				break;
@@ -147,8 +146,10 @@ void Game::play()
 		}
 
 
-		m_display->renderGame(m_snake->getBody(), m_food->getPos(), m_score, m_window);
+		m_display->renderGame(m_snake->getBody(), m_food->getPos(), m_score, m_window, m_highScore);
 	}
+
+	saveHighScore();
 }
 
 
@@ -193,8 +194,39 @@ void Game::createWindow()
 }
 
 
-bool Game::replayGame(/*const std::optional<sf::Event>& event*/)
+bool Game::replayGame()
 {
 	return m_isRunning;
-	//return openMenu(MenuType::replay_menu, event);
+}
+
+
+void Game::loadHighScore()
+{
+	std::ifstream file{ "highscore.txt" };
+
+	if (file.is_open())
+	{
+		file >> m_highScore;
+		file.close();
+	}
+
+	else
+		m_highScore = 0;
+}
+
+
+void Game::saveHighScore()
+{
+	if (m_score > m_highScore)
+	{
+		m_highScore = m_score;
+
+		std::ofstream file{ "highscore.txt" };
+
+		if (file.is_open())
+		{
+			file << m_highScore;
+			file.close();
+		}
+	}
 }

@@ -28,6 +28,4 @@ int main()
 		if (!game.replayGame())
 			playGame = false;
 	}
-
-	// code optionnel quand le joueur ne veut pas rejouer et quitte ...
 }

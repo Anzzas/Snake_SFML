@@ -3,7 +3,7 @@
 using namespace DisplaySettings;
 
 
-void Display::renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window)
+void Display::renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window, const int& highScore)
 {
 
         m_window.clear();
@@ -19,6 +19,9 @@ void Display::renderGame(const std::deque<Position>& snakeBody, const Position& 
 
 
         renderScore(score, m_window);
+
+
+        renderHighScore(highScore, m_window);
 
 
         m_window.display();
@@ -116,6 +119,24 @@ void Display::renderScore(const int& score, sf::RenderWindow& m_window)
 
 
     m_window.draw(scoreText);
+}
+
+
+void Display::renderHighScore(const int& highScore, sf::RenderWindow& m_window)
+{
+    sf::Text highScoreText{ m_font, "High score: " + std::to_string(highScore) };
+
+
+    highScoreText.setCharacterSize(charSize);
+
+
+    highScoreText.setFillColor(text_Color);
+
+
+    highScoreText.setPosition(sf::Vector2f{ 360.0f, 0.0f });
+
+
+    m_window.draw(highScoreText);
 }
 
 

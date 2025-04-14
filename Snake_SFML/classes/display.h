@@ -41,7 +41,7 @@ public:
      * Interface principale pour le rendu du jeu
      * Appelle toutes les autres fonctions de rendu
      */
-    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window);
+    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window, const int& highScore);
 
 
     /** Displaying once the Replay Menu and the select Cursor in real time*/
@@ -75,6 +75,9 @@ private:
      * Affiche le score actuel
      */
     void renderScore(const int& score, sf::RenderWindow& m_window);
+
+
+    void renderHighScore(const int& highScore, sf::RenderWindow& m_window);
 
 
     void renderMenuBorders(sf::RenderWindow& m_window);

@@ -9,6 +9,7 @@
 #include <map>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+#include <fstream>
 
 namespace GameSettings
 {
@@ -38,6 +39,7 @@ public:
 		, m_display{ std::move(display) }
 		, m_menu{ std::move(menu) }
 		, m_score{}
+		, m_highScore{}
 		, m_isRunning{ true }
 		, m_eatBuffer{}
 		, m_eatSound{ m_eatBuffer }
@@ -45,11 +47,11 @@ public:
 		m_food->generate(Position::createRandomPosition(m_snake->getBody()));
 
 		if (!m_eatBuffer.loadFromFile("audio/beep.mp3"))
-		{
-			// Gérer l'erreur de chargement
 			std::cout << "Cannot load beep.mp3\n";
-		}
+
 		m_eatSound.setBuffer(m_eatBuffer);
+
+		loadHighScore();
 	}
 
 
@@ -57,7 +59,7 @@ public:
 	void run();
 
 
-	bool replayGame(/*const std::optional<sf::Event>& event*/);
+	bool replayGame();
 
 private:
 
@@ -68,6 +70,7 @@ private:
 	std::unique_ptr<Display> m_display;
 	std::unique_ptr<Menu> m_menu;
 	int m_score;
+	int m_highScore;
 	bool m_isRunning;
 	sf::RenderWindow m_window;
 	sf::SoundBuffer m_eatBuffer;
@@ -90,6 +93,12 @@ private:
 
 
 	void play();
+
+
+	void loadHighScore();
+
+
+	void saveHighScore();
 };
 
 #endif
