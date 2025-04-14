@@ -57,11 +57,4 @@ Control a snake moving on a game board, eat food to grow, and avoid hitting the 
 - `police/`: Fonts used in the game
 - `audio/`: Sound files
 
-## Future Improvements
-
-- Add multiplayer mode
-- Implementation of power-ups
-- Levels with obstacles
-- Online leaderboard
-
 Feel free to open an issue if you encounter any problems or have suggestions for improvement!
