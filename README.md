@@ -2,9 +2,6 @@
 
 A classic Snake game developed in C++ with the SFML graphics library.
 
-![Snake Game](https://github.com/yourusername/Snake_SFML/raw/main/screenshot.png)
-*You can add a screenshot of your game here*
-
 ## Description
 
 Control a snake moving on a game board, eat food to grow, and avoid hitting the walls or your own body. A modern version of the 90s classic!
