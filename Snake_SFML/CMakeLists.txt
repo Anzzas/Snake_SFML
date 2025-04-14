@@ -22,7 +22,6 @@ set(GAME_CLASSES
     classes/display.cpp
     classes/display.h
     classes/food.h
-    classes/food.cpp 
     classes/board.h
     classes/board.cpp
     classes/menu.cpp
@@ -36,6 +35,7 @@ add_executable (Snake_SFML ${SFML_CLASS} ${GAME_CLASSES})
 
 file(COPY "${CMAKE_SOURCE_DIR}/Snake_SFML/police" 
      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")
+
 
 file(COPY "${CMAKE_SOURCE_DIR}/Snake_SFML/audio" 
      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")

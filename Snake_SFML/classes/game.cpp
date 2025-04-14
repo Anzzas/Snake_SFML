@@ -178,11 +178,18 @@ void Game::handleScore()
 	{
 		m_score += GameSettings::addScore;
 
+		if (m_score > m_highScore)
+		{
+			m_highScore = m_score;
+			m_newHigh.play();
+		}
+
+		else
+			m_eatSound.play();
+
 		m_food->generate(Position::createRandomPosition(m_snake->getBody()));
 
 		m_snake->grow();
-
-		m_eatSound.play();
 	}
 }
 
@@ -202,11 +209,23 @@ bool Game::replayGame()
 
 void Game::loadHighScore()
 {
-	std::ifstream file{ "highscore.txt" };
+	std::ifstream file("highscore.txt");
 
 	if (file.is_open())
 	{
-		file >> m_highScore;
+		int storedScore{};
+		int storedChecksum{};
+
+		file >> storedScore >> storedChecksum;
+
+
+		int calculatedChecksum = storedScore * 1337 + 42;
+
+		if (calculatedChecksum == storedChecksum)
+			m_highScore = storedScore;
+		else
+			m_highScore = 0;
+
 		file.close();
 	}
 
@@ -217,15 +236,15 @@ void Game::loadHighScore()
 
 void Game::saveHighScore()
 {
-	if (m_score > m_highScore)
+	if (m_score >= m_highScore)
 	{
-		m_highScore = m_score;
 
-		std::ofstream file{ "highscore.txt" };
+		std::ofstream file("highscore.txt");
 
 		if (file.is_open())
 		{
-			file << m_highScore;
+			int checksum{ m_highScore * 1337 + 42 };
+			file << m_highScore << " " << checksum;
 			file.close();
 		}
 	}

@@ -9,7 +9,7 @@
 
 namespace DisplaySettings
 {
-    inline const std::string windowName{ "Snake Game" };
+    inline const std::string windowName{ "Snake" };
     constexpr int window_Dimensions{ 500 };
     constexpr int charSize{ 16 };
     constexpr float cell_Size{ 20.0f };
@@ -38,8 +38,7 @@ public:
     }
 
     /**
-     * Interface principale pour le rendu du jeu
-     * Appelle toutes les autres fonctions de rendu
+     * Main interface for game's rendering
      */
     void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window, const int& highScore);
 
@@ -53,27 +52,15 @@ public:
 private:
 
 
-    /**
-     * Dessine les bordures du jeu
-     */
     void renderBorders(sf::RenderWindow& m_window);
 
 
-    /**
-     * Dessine le serpent (tête et corps)
-     */
     void renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindow& m_window);
 
 
-    /**
-     * Dessine la nourriture
-     */
     void renderFood(const Position& foodPos, sf::RenderWindow& m_window);
 
 
-    /**
-     * Affiche le score actuel
-     */
     void renderScore(const int& score, sf::RenderWindow& m_window);
 
 
@@ -93,19 +80,12 @@ private:
     sf::Vector2f m_currentCursorPos{ DisplaySettings::option1Pos };
 
 
-    /**
-     * Convertit une position de grille en coordonnées d'écran
-     */
     sf::Vector2f gridToScreenPosition(const Position& gridPos) const;
 
 
-    /**
-    * Convertit la position au centre réel du cerle 
-    */
     sf::Vector2f positionShapeCenter(const sf::Vector2f& centerPos, const sf::CircleShape& shape) const;
 
 
-    // Police pour le texte
     sf::Font m_font;
 };
 

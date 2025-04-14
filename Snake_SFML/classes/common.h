@@ -64,20 +64,6 @@ enum class MenuSelection
 	max_selections
 };
 
-
-enum class InputType
-{
-	up_arrow,
-	right_arrow,
-	down_arrow,
-	left_arrow,
-	enter,
-	escape,
-	none_key,
-	max_inputTypes
-};
-
-
 enum class MenuType
 {
 	main_menu,

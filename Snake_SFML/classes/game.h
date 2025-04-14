@@ -42,14 +42,21 @@ public:
 		, m_highScore{}
 		, m_isRunning{ true }
 		, m_eatBuffer{}
+		, m_newHighBuffer{}
 		, m_eatSound{ m_eatBuffer }
+		, m_newHigh{ m_newHighBuffer }
 	{
 		m_food->generate(Position::createRandomPosition(m_snake->getBody()));
 
 		if (!m_eatBuffer.loadFromFile("audio/beep.mp3"))
 			std::cout << "Cannot load beep.mp3\n";
 
+		if (!m_newHighBuffer.loadFromFile("audio/beep2.mp3"))
+			std::cout << "Cannot load beep2.mp3\n";
+
 		m_eatSound.setBuffer(m_eatBuffer);
+
+		m_newHigh.setBuffer(m_newHighBuffer);
 
 		loadHighScore();
 	}
@@ -74,7 +81,9 @@ private:
 	bool m_isRunning;
 	sf::RenderWindow m_window;
 	sf::SoundBuffer m_eatBuffer;
+	sf::SoundBuffer m_newHighBuffer;
 	sf::Sound m_eatSound;
+	sf::Sound m_newHigh;
 
 
 	void createWindow();

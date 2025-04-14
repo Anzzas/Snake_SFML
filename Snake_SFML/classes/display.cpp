@@ -30,40 +30,39 @@ void Display::renderGame(const std::deque<Position>& snakeBody, const Position& 
 
 void Display::renderBorders(sf::RenderWindow& m_window)
 {
-    // Définir l'épaisseur de vos bordures
-    const float borderThickness = 10.0f; // à vous de choisir
 
-    // Créer les quatre rectangles pour les bordures
-    // 1. Bordure du haut
+    const float borderThickness = 10.0f;
+
+
     sf::RectangleShape topBorder;
     topBorder.setSize(sf::Vector2f(window_Dimensions - 40.0f, borderThickness));
     topBorder.setPosition(sf::Vector2f(20.0f, 20.0f));
     topBorder.setFillColor(DisplaySettings::border_Color);
 
-    // 2. Bordure de gauche
+
     sf::RectangleShape leftBorder;
     leftBorder.setSize(sf::Vector2f(borderThickness, window_Dimensions - 40.0f));
     leftBorder.setPosition(sf::Vector2f(20.0f, 20.0f));
     leftBorder.setFillColor(DisplaySettings::border_Color);
 
-    // 3. Bordure du bas
+
     sf::RectangleShape downBorder;
     downBorder.setSize(sf::Vector2f(window_Dimensions - 40.0f, borderThickness));
     downBorder.setPosition(sf::Vector2f(20.0f, (window_Dimensions - borderThickness) - 20.0f));
     downBorder.setFillColor(DisplaySettings::border_Color);
 
-    // 4. Bordure de droite
+
     sf::RectangleShape rightBorder;
     rightBorder.setSize(sf::Vector2f(borderThickness, window_Dimensions - 40.0f));
     rightBorder.setPosition(sf::Vector2f((window_Dimensions - borderThickness) - 20.0f, 20.0f));
     rightBorder.setFillColor(DisplaySettings::border_Color);
 
-    // Dessiner chaque bordure sur la fenêtre
+
     m_window.draw(topBorder);
     m_window.draw(leftBorder);
     m_window.draw(rightBorder);
     m_window.draw(downBorder);
-    // etc.
+
 }
 
 void Display::renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindow& m_window)
@@ -160,46 +159,46 @@ void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const std
 
 void Display::renderMenuBorders(sf::RenderWindow& m_window)
 {
-    const float borderThickness = 5.0f;  // Épaisseur des bordures
-    const float borderOffset = 50.0f;    // Distance depuis le bord de la fenêtre
+    const float borderThickness = 5.0f;
+    const float borderOffset = 50.0f;
     const float width = window_Dimensions - 2 * borderOffset;
     const float height = window_Dimensions - 2 * borderOffset;
 
-    // Couleur des bordures (blanc ou gris clair)
+
     sf::Color borderColor(200, 200, 200);
 
-    // 1. Bordure du haut
+
     sf::RectangleShape topBorder;
     topBorder.setSize(sf::Vector2f(width, borderThickness));
     topBorder.setPosition(sf::Vector2f(borderOffset, borderOffset));
     topBorder.setFillColor(borderColor);
 
-    // 2. Bordure de droite
+
     sf::RectangleShape rightBorder;
     rightBorder.setSize(sf::Vector2f(borderThickness, height));
     rightBorder.setPosition(sf::Vector2f(borderOffset + width - borderThickness, borderOffset));
     rightBorder.setFillColor(borderColor);
 
-    // 3. Bordure du bas
+
     sf::RectangleShape bottomBorder;
     bottomBorder.setSize(sf::Vector2f(width, borderThickness));
     bottomBorder.setPosition(sf::Vector2f(borderOffset, borderOffset + height - borderThickness));
     bottomBorder.setFillColor(borderColor);
 
-    // 4. Bordure de gauche
+
     sf::RectangleShape leftBorder;
     leftBorder.setSize(sf::Vector2f(borderThickness, height));
     leftBorder.setPosition(sf::Vector2f(borderOffset, borderOffset));
     leftBorder.setFillColor(borderColor);
 
-    // 5. Ligne horizontale du milieu (séparant le titre du reste)
+
     sf::RectangleShape middleBorder;
     middleBorder.setSize(sf::Vector2f(width, borderThickness));
-    // Position à environ 1/4 de la hauteur totale pour séparer le titre du menu
+
     middleBorder.setPosition(sf::Vector2f(borderOffset, borderOffset + height / 4));
     middleBorder.setFillColor(borderColor);
 
-    // Dessiner toutes les bordures
+
     m_window.draw(topBorder);
     m_window.draw(rightBorder);
     m_window.draw(bottomBorder);
