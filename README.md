@@ -44,7 +44,7 @@ Control a snake moving on a game board, eat food to grow, and avoid hitting the 
 - SFML 2.6 or higher
 
 ### Steps
-1. Clone the repository: `git clone https://github.com/yourusername/Snake_SFML.git`
+1. Clone the repository: `git clone https://github.com/Anzzas/Snake_SFML.git`
 2. Create a build directory: `mkdir build && cd build`
 3. Generate build files: `cmake ..`
 4. Compile: `cmake --build .`
