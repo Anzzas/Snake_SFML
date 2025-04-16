@@ -3,11 +3,12 @@
 int main()
 {
 
-	bool playGame{ true };
-
-
-	while (playGame)
+	while (true)
 	{
+		auto window{ std::make_unique<sf::RenderWindow>(DisplaySettings::window_Dimensions, DisplaySettings::window_Dimensions, DisplaySettings::windowName) };
+		
+		window->setVerticalSyncEnabled(true);
+
 		std::unique_ptr<Snake> snake{ std::make_unique<Snake>() };
 
 		std::unique_ptr<Food> food{ std::make_unique<Food>(Position::createRandomPosition(snake->getBody())) };
@@ -21,11 +22,11 @@ int main()
 		std::unique_ptr<Menu> menu{ std::make_unique<Menu>() };
 
 
-		Game game{ std::move(board), std::move(snake), std::move(food), std::move(playerController), std::move(display), std::move(menu) };
+		Game game{std::move(window), std::move(board), std::move(snake), std::move(food), std::move(playerController), std::move(display), std::move(menu) };
 
 		game.run();
 
 		if (!game.replayGame())
-			playGame = false;
+			break;
 	}
 }

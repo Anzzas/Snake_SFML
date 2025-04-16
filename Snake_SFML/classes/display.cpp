@@ -3,10 +3,10 @@
 using namespace DisplaySettings;
 
 
-void Display::renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window, const int& highScore)
+void Display::renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, std::unique_ptr<sf::RenderWindow>& m_window, const int& highScore)
 {
 
-        m_window.clear();
+        m_window->clear();
 
 
         renderBorders(m_window);
@@ -24,11 +24,11 @@ void Display::renderGame(const std::deque<Position>& snakeBody, const Position& 
         renderHighScore(highScore, m_window);
 
 
-        m_window.display();
+        m_window->display();
 }
 
 
-void Display::renderBorders(sf::RenderWindow& m_window)
+void Display::renderBorders(std::unique_ptr<sf::RenderWindow>& m_window)
 {
 
     const float borderThickness = 10.0f;
@@ -58,14 +58,14 @@ void Display::renderBorders(sf::RenderWindow& m_window)
     rightBorder.setFillColor(DisplaySettings::border_Color);
 
 
-    m_window.draw(topBorder);
-    m_window.draw(leftBorder);
-    m_window.draw(rightBorder);
-    m_window.draw(downBorder);
+    m_window->draw(topBorder);
+    m_window->draw(leftBorder);
+    m_window->draw(rightBorder);
+    m_window->draw(downBorder);
 
 }
 
-void Display::renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindow& m_window)
+void Display::renderSnake(const std::deque<Position>& snakeBody, std::unique_ptr<sf::RenderWindow>& m_window)
 {
     for (const auto& e : snakeBody)
     {       
@@ -82,12 +82,12 @@ void Display::renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindo
         body.setFillColor(snakeBody.front() == e ? snake_HeadColor : snake_BodyColor);
 
 
-        m_window.draw(body);
+        m_window->draw(body);
     }
 }
 
 
-void Display::renderFood(const Position& foodPos, sf::RenderWindow& m_window)
+void Display::renderFood(const Position& foodPos, std::unique_ptr<sf::RenderWindow>& m_window)
 {
     sf::CircleShape foodSprite{ cell_Size / 2 };
 
@@ -101,11 +101,11 @@ void Display::renderFood(const Position& foodPos, sf::RenderWindow& m_window)
     foodSprite.setFillColor(food_Color);
 
     
-    m_window.draw(foodSprite);
+    m_window->draw(foodSprite);
 }
 
 
-void Display::renderScore(const int& score, sf::RenderWindow& m_window)
+void Display::renderScore(const int& score, std::unique_ptr<sf::RenderWindow>& m_window)
 {    
 
     sf::Text scoreText{ m_font, "Score: " + std::to_string(score) };
@@ -117,11 +117,11 @@ void Display::renderScore(const int& score, sf::RenderWindow& m_window)
     scoreText.setFillColor(text_Color);
 
 
-    m_window.draw(scoreText);
+    m_window->draw(scoreText);
 }
 
 
-void Display::renderHighScore(const int& highScore, sf::RenderWindow& m_window)
+void Display::renderHighScore(const int& highScore, std::unique_ptr<sf::RenderWindow>& m_window)
 {
     sf::Text highScoreText{ m_font, "High score: " + std::to_string(highScore) };
 
@@ -135,13 +135,13 @@ void Display::renderHighScore(const int& highScore, sf::RenderWindow& m_window)
     highScoreText.setPosition(sf::Vector2f{ 360.0f, 0.0f });
 
 
-    m_window.draw(highScoreText);
+    m_window->draw(highScoreText);
 }
 
 
-void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const std::optional<sf::Event>& input, MenuType menuType, const DifficultyMode& difficulty)
+void Display::renderMenu(std::unique_ptr<sf::RenderWindow>& m_window, const int& score, const std::optional<sf::Event>& input, MenuType menuType, const DifficultyMode& difficulty)
 {
-    m_window.clear();
+    m_window->clear();
 
 
     renderMenuBorders(m_window);
@@ -153,11 +153,11 @@ void Display::renderMenu(sf::RenderWindow& m_window, const int& score, const std
     renderMenuSelectCursor(input, m_window, menuType);
 
 
-    m_window.display();
+    m_window->display();
 }
 
 
-void Display::renderMenuBorders(sf::RenderWindow& m_window)
+void Display::renderMenuBorders(std::unique_ptr<sf::RenderWindow>& m_window)
 {
     const float borderThickness = 5.0f;
     const float borderOffset = 50.0f;
@@ -199,15 +199,15 @@ void Display::renderMenuBorders(sf::RenderWindow& m_window)
     middleBorder.setFillColor(borderColor);
 
 
-    m_window.draw(topBorder);
-    m_window.draw(rightBorder);
-    m_window.draw(bottomBorder);
-    m_window.draw(leftBorder);
-    m_window.draw(middleBorder);
+    m_window->draw(topBorder);
+    m_window->draw(rightBorder);
+    m_window->draw(bottomBorder);
+    m_window->draw(leftBorder);
+    m_window->draw(middleBorder);
 }
 
 
-void Display::renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, sf::RenderWindow& m_window)
+void Display::renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, std::unique_ptr<sf::RenderWindow>& m_window)
 {
     const float borderOffset = 50.0f;
     const float menuWidth = window_Dimensions - 2 * borderOffset;
@@ -231,7 +231,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
 
     float titleX = 250.0f - (titleText.getString().getSize() * charSize * 0.6f);
     titleText.setPosition(sf::Vector2f{ titleX, 90.0f });
-    m_window.draw(titleText);
+    m_window->draw(titleText);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -255,7 +255,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     text2Prefix.setCharacterSize(charSize);
     text2Prefix.setFillColor(text_Color);
     text2Prefix.setPosition(sf::Vector2f{ 180.0f, 160.0f });
-    m_window.draw(text2Prefix);
+    m_window->draw(text2Prefix);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -291,7 +291,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     text2.setCharacterSize(charSize);
     text2.setFillColor(text_Color);
     text2.setPosition(sf::Vector2f{ menuType == MenuType::replay_menu ? 280.0f : 250.0f, 160.0f });
-    m_window.draw(text2);
+    m_window->draw(text2);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     option1.setCharacterSize(menuItemSize);
     option1.setFillColor(text_Color);
     option1.setPosition(sf::Vector2f{ 250.0f - 25.0f, menuStartY });
-    m_window.draw(option1);
+    m_window->draw(option1);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -330,7 +330,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     option2.setFillColor(text_Color);
     float option2X = 250.0f - (option2.getString().getSize() * menuItemSize * 0.25f);
     option2.setPosition(sf::Vector2f{ option2X, menuStartY + menuSpacing });
-    m_window.draw(option2);
+    m_window->draw(option2);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -342,7 +342,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     option3.setFillColor(text_Color);
     float option3X = 250.0f - (option3.getString().getSize() * menuItemSize * 0.25f);
     option3.setPosition(sf::Vector2f{ option3X, menuStartY + menuSpacing * 2.0f });
-    m_window.draw(option3);
+    m_window->draw(option3);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -354,7 +354,7 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     instruction1.setFillColor(text_Color);
     float instruction1X = 250.0f - (instruction1.getString().getSize() * charSize * 0.25f);
     instruction1.setPosition(sf::Vector2f{ instruction1X, 390.0f });
-    m_window.draw(instruction1);
+    m_window->draw(instruction1);
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -366,16 +366,16 @@ void Display::renderMenuText(const int& score, MenuType menuType, const Difficul
     instruction2.setFillColor(text_Color);
     float instruction2X = 250.0f - (instruction2.getString().getSize() * charSize * 0.25f);
     instruction2.setPosition(sf::Vector2f{ instruction2X, 420.0f });
-    m_window.draw(instruction2);
+    m_window->draw(instruction2);
 }
 
 
-void Display::renderMenuSelectCursor(const std::optional<sf::Event>& input, sf::RenderWindow& m_window, MenuType menuType)
+void Display::renderMenuSelectCursor(const std::optional<sf::Event>& input, std::unique_ptr<sf::RenderWindow>& m_window, MenuType menuType)
 {
 
         sf::Text cursor{ m_font, " "};
         cursor.setPosition(sf::Vector2f{ static_cast<float>(m_currentCursorPos.x), static_cast<float>(m_currentCursorPos.y) });
-        m_window.draw(cursor);
+        m_window->draw(cursor);
 
         if (input && input->getIf<sf::Event::KeyPressed>())
         {
@@ -419,7 +419,7 @@ void Display::renderMenuSelectCursor(const std::optional<sf::Event>& input, sf::
         cursor.setCharacterSize(charSize);
         cursor.setFillColor(text_Color);
         cursor.setPosition(sf::Vector2f{ m_currentCursorPos.x, m_currentCursorPos.y });
-        m_window.draw(cursor);
+        m_window->draw(cursor);
 }
 
 

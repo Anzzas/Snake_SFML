@@ -3,15 +3,13 @@
 
 void Game::run()
 {
-	createWindow();
-
 
 	m_display->renderMenu(m_window, m_score, std::nullopt, MenuType::main_menu, GameSettings::currentDifficulty); // Do once for the first frame
 
 
-	while (m_window.isOpen())
+	while (m_window->isOpen())
 	{
-		while (auto event = m_window.pollEvent())
+		while (auto event = m_window->pollEvent())
 		{
 			const auto* keyEvent = event->getIf<sf::Event::KeyPressed>();
 
@@ -19,7 +17,7 @@ void Game::run()
 
 			if (event->getIf<sf::Event::Closed>())
 			{
-				m_window.close();
+				m_window->close();
 				break;
 			}
 
@@ -53,7 +51,7 @@ void Game::run()
 
 				}
 				case MenuSelection::quit:
-					m_window.close();
+					m_window->close();
 					m_isRunning = false;
 					break;
 
@@ -95,15 +93,15 @@ void Game::play()
 
 	Direction currentDirection = m_snake->getDirection();
 
-	while (m_window.isOpen())
+	while (m_window->isOpen())
 	{
 
-		while (auto event = m_window.pollEvent())
+		while (auto event = m_window->pollEvent())
 		{
 
 			if (event->getIf<sf::Event::Closed>())
 			{
-				m_window.close();
+				m_window->close();
 				break;
 			}
 
@@ -111,11 +109,11 @@ void Game::play()
 			if (const auto* keyEvent = event->getIf<sf::Event::KeyPressed>())
 			{
 
-				currentDirection = m_controller->getDirection(currentDirection, event);
+				currentDirection = m_controller->getDirection(currentDirection, keyEvent);
 
 
 				if (m_controller->isQuitReq())
-					m_window.close();
+					m_window->close();
 			}
 		}
 
@@ -134,7 +132,7 @@ void Game::play()
 			if (checkCollision())
 			{
 				m_menu->setCurrentMenu(MenuType::replay_menu);
-				m_display->renderMenu(m_window, m_score, m_window.pollEvent(), m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
+				m_display->renderMenu(m_window, m_score, m_window->pollEvent(), m_menu->getCurrentMenu(), GameSettings::currentDifficulty);
 				break;
 			}
 
@@ -191,13 +189,6 @@ void Game::handleScore()
 
 		m_snake->grow();
 	}
-}
-
-
-void Game::createWindow()
-{
-	m_window.create(sf::VideoMode({ DisplaySettings::window_Dimensions, DisplaySettings::window_Dimensions }), DisplaySettings::windowName);
-	m_window.setVerticalSyncEnabled(true);
 }
 
 

@@ -40,11 +40,11 @@ public:
     /**
      * Main interface for game's rendering
      */
-    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, sf::RenderWindow& m_window, const int& highScore);
+    void renderGame(const std::deque<Position>& snakeBody, const Position& food, const int& score, std::unique_ptr<sf::RenderWindow>& m_window, const int& highScore);
 
 
     /** Displaying once the Replay Menu and the select Cursor in real time*/
-    void renderMenu(sf::RenderWindow& m_window, const int& score, const std::optional<sf::Event>& input, MenuType menuType, const DifficultyMode& difficulty);
+    void renderMenu(std::unique_ptr<sf::RenderWindow>&, const int& score, const std::optional<sf::Event>& input, MenuType menuType, const DifficultyMode& difficulty);
 
 
     void resetCursorPos() { m_currentCursorPos = DisplaySettings::option1Pos; }
@@ -52,28 +52,28 @@ public:
 private:
 
 
-    void renderBorders(sf::RenderWindow& m_window);
+    void renderBorders(std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderSnake(const std::deque<Position>& snakeBody, sf::RenderWindow& m_window);
+    void renderSnake(const std::deque<Position>& snakeBody, std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderFood(const Position& foodPos, sf::RenderWindow& m_window);
+    void renderFood(const Position& foodPos, std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderScore(const int& score, sf::RenderWindow& m_window);
+    void renderScore(const int& score, std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderHighScore(const int& highScore, sf::RenderWindow& m_window);
+    void renderHighScore(const int& highScore, std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderMenuBorders(sf::RenderWindow& m_window);
+    void renderMenuBorders(std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, sf::RenderWindow& m_window);
+    void renderMenuText(const int& score, MenuType menuType, const DifficultyMode& difficulty, std::unique_ptr<sf::RenderWindow>& m_window);
 
 
-    void renderMenuSelectCursor(const std::optional<sf::Event>& input, sf::RenderWindow& m_window, MenuType menuType);
+    void renderMenuSelectCursor(const std::optional<sf::Event>& input, std::unique_ptr<sf::RenderWindow>& m_window, MenuType menuType);
 
 
     /** Position state to keep in memory the select Cursor position*/

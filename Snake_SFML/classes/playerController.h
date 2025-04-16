@@ -13,10 +13,7 @@ public:
 
 
 	/** Converting inputs (arrow keys) into a Direction*/
-	Direction getDirection(Direction currentDirection, const std::optional<sf::Event>& event);
-
-
-	std::optional<Direction> getMenuDirection(const std::optional<sf::Event>& event) const;
+	Direction getDirection(Direction currentDirection, const sf::Event::KeyPressed* keyEvent);
 
 
 	/** Detecting ESCAPE input and stop the game if pressed*/

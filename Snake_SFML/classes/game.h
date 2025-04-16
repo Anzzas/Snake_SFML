@@ -31,8 +31,9 @@ class Game
 {
 public:
 
-	Game(std::unique_ptr<Board> board, std::unique_ptr<Snake> snake, std::unique_ptr<Food> food, std::unique_ptr<PlayerController> controller, std::unique_ptr<Display> display, std::unique_ptr<Menu> menu)
-		: m_board{ std::move(board) }
+	Game(std::unique_ptr<sf::RenderWindow> window, std::unique_ptr<Board> board, std::unique_ptr<Snake> snake, std::unique_ptr<Food> food, std::unique_ptr<PlayerController> controller, std::unique_ptr<Display> display, std::unique_ptr<Menu> menu)
+		: m_window{ std::move(window) }
+		, m_board{ std::move(board) }
 		, m_snake{ std::move(snake) }
 		, m_food{ std::move(food) }
 		, m_controller{ std::move(controller) }
@@ -70,6 +71,7 @@ public:
 
 private:
 
+	std::unique_ptr<sf::RenderWindow> m_window;
 	std::unique_ptr<Board> m_board;
 	std::unique_ptr<Snake> m_snake;
 	std::unique_ptr<Food> m_food;
@@ -79,14 +81,10 @@ private:
 	int m_score;
 	int m_highScore;
 	bool m_isRunning;
-	sf::RenderWindow m_window;
 	sf::SoundBuffer m_eatBuffer;
 	sf::SoundBuffer m_newHighBuffer;
 	sf::Sound m_eatSound;
 	sf::Sound m_newHigh;
-
-
-	void createWindow();
 
 
 	/** Collision CHECK for BORDERS and Snake's BODY*/
